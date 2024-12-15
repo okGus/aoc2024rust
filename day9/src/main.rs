@@ -54,6 +54,66 @@ fn compact_file(mut arr: Vec<Option<usize>>) -> Vec<Option<usize>> {
     arr
 }
 
+fn compact_file_whole(mut arr: Vec<Option<usize>>) -> Vec<Option<usize>> {
+    let mut file_positions: Vec<(usize, usize, usize)> = Vec::new(); // (file_id, start, length)
+    let mut free_spans: Vec<(usize, usize)> = Vec::new(); // (start, length)
+
+    // Identify file positions and free spans
+    let mut i = 0;
+    while i < arr.len() {
+        if let Some(file_id) = arr[i] {
+            let start = i;
+            while i < arr.len() && arr[i] == Some(file_id) {
+                i += 1;
+            }
+            let length = i - start;
+            file_positions.push((file_id, start, length));
+        } else {
+            let start = i;
+            while i < arr.len() && arr[i].is_none() {
+                i += 1;
+            }
+            let length = i - start;
+            free_spans.push((start, length));
+        }
+    }
+
+    // Sort files by descending file ID
+    file_positions.sort_by(|a, b| b.0.cmp(&a.0));
+
+    // Attempt to move each file
+    for (file_id, file_start, file_length) in file_positions {
+        // Find the first free span that can fit the file
+        if let Some((span_idx, (span_start, span_length))) = free_spans
+            .iter()
+            .enumerate()
+            .find(|&(_, &(span_start, span_length))| span_length >= file_length && span_start < file_start)
+        {
+            // Move the file
+            for i in 0..file_length {
+                arr[span_start + i] = Some(file_id);
+            }
+            for i in file_start..file_start + file_length {
+                arr[i] = None;
+            }
+
+            // Update the free spans
+            let updated_span_start = span_start + file_length;
+            let updated_span_length = span_length - file_length;
+            if updated_span_length > 0 {
+                free_spans[span_idx] = (updated_span_start, updated_span_length);
+            } else {
+                free_spans.remove(span_idx);
+            }
+
+            // Sort free spans by increasing start position
+            free_spans.sort_by(|a, b| a.0.cmp(&b.0));
+        }
+    }
+
+    arr
+}
+
 fn file_checksum(arr: &Vec<Option<usize>>) -> usize {
     arr.iter()
         .enumerate()
@@ -68,7 +128,7 @@ fn main() {
         .to_string();
 
     let filesystem = make_filesystem(&line);
-    let compacted = compact_file(filesystem);
+    let compacted = compact_file_whole(filesystem);
     let checksum = file_checksum(&compacted);
 
     println!("{}", checksum);
