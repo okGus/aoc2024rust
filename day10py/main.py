@@ -1,11 +1,9 @@
 from typing import List, Set, Tuple
 
-
 def is_bounded(matrix: List[int], r: int, c: int):
     if r >= 0 and c >= 0 and r < len(matrix) and c < len(matrix[0]):
         return True
     return False
-
 
 def dfs(matrix: List[int], seen: Set[Tuple[int, int]], r: int, c: int, res: List[int]):
     if not is_bounded(matrix, r, c) or (r, c) in seen:
@@ -27,7 +25,6 @@ def dfs(matrix: List[int], seen: Set[Tuple[int, int]], r: int, c: int, res: List
     if c - 1 >= 0 and val + 1 == matrix[r][c - 1]:
         dfs(matrix, seen, r, c - 1, res)
 
-
 def solution(matrix: List[int]):
     total_score = 0
     trailhead_scores = []
@@ -45,7 +42,6 @@ def solution(matrix: List[int]):
     print("Trailhead scores", trailhead_scores)
     print("Total Trailhead score", total_score)
 
-
 def main():
     with open("day10input.txt", 'r') as f:
         line = f.readlines()
@@ -54,7 +50,6 @@ def main():
     for sub in matrix:
         print(sub)
     solution(matrix)
-
 
 if __name__ == "__main__":
     main()
