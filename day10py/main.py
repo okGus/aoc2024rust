@@ -8,7 +8,7 @@ def is_bounded(matrix: List[int], r: int, c: int):
 def dfs(matrix: List[int], seen: Set[Tuple[int, int]], r: int, c: int, res: List[int]):
     if not is_bounded(matrix, r, c) or (r, c) in seen:
         return
-
+    
     val = matrix[r][c]
     seen.add((r, c))
 
@@ -53,3 +53,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+    arr = []
