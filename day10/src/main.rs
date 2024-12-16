@@ -17,7 +17,7 @@ fn dfs(matrix: &Vec<Vec<i32>>,
         return;
     }
     let val: i32 = matrix[r as usize][c as usize];
-    seen.insert((r, c));
+    //seen.insert((r, c)); // part 1 needed, part 2 doesn't
 
     if val == 9 {
         *res += 1;

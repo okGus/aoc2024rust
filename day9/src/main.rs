@@ -20,6 +20,7 @@ fn make_filesystem(diskmap: &str) -> Vec<Option<usize>> {
     blocks
 }
 
+// Part 1 only
 fn compact_file(mut arr: Vec<Option<usize>>) -> Vec<Option<usize>> {
     let mut first_free = 0;
 
@@ -54,6 +55,7 @@ fn compact_file(mut arr: Vec<Option<usize>>) -> Vec<Option<usize>> {
     arr
 }
 
+// Part 2 only
 fn compact_file_whole(mut arr: Vec<Option<usize>>) -> Vec<Option<usize>> {
     let mut file_positions: Vec<(usize, usize, usize)> = Vec::new(); // (file_id, start, length)
     let mut free_spans: Vec<(usize, usize)> = Vec::new(); // (start, length)
@@ -122,7 +124,7 @@ fn file_checksum(arr: &Vec<Option<usize>>) -> usize {
 }
 
 fn main() {
-    let line = fs::read_to_string("day9input.txt")
+    let line = fs::read_to_string("day9test.txt")
         .expect("Failed to read file")
         .trim()
         .to_string();

@@ -8,6 +8,7 @@ enum Operator {
     Concatenate,
 }
 
+// part 2
 /// Concatenate two numbers
 fn concatenate(a: i64, b: i64) -> i64 {
     let b_str = b.to_string();
@@ -22,7 +23,7 @@ fn solve_equation(numbers: &[i64], operators: &[Operator]) -> i64 {
         match op {
             Operator::Add => result += numbers[i + 1],
             Operator::Multiply => result *= numbers[i + 1],
-            Operator::Concatenate => result = concatenate(result, numbers[i + 1]),
+            Operator::Concatenate => result = concatenate(result, numbers[i + 1]), // part 2
         }
     }
     result

@@ -18,6 +18,7 @@ fn print_matrix(matrix: &Vec<Vec<char>>) -> () {
     }
 }
 
+// part 1
 fn start_moving(matrix: &mut Vec<Vec<char>>, 
                 mm: &mut Vec<Vec<char>>, 
                 x: &mut usize, 
